@@ -1,6 +1,6 @@
 # SpringJavaProject2022
 
-IN1007 - Programming In Java
+IN1007 - Programming In Java - Java Game using City Engine
 
 Name: Farhaan Khan (adck927)
 
