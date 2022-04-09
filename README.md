@@ -1,5 +1,7 @@
 # SpringJavaProject2022
 
+IN1007 - Programming In Java
+
 Name: Farhaan Khan (adck927)
 
 Student Number: 210052555
