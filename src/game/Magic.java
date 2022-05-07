@@ -5,23 +5,23 @@ import org.jbox2d.common.Vec2;
 
 public class Magic extends DynamicBody {
 
-    //variables
+    //Variables
     private static final Shape attackShape = new CircleShape(0.5f);
-    private static final BodyImage attack = new BodyImage("data/effects/effect1.gif", 3f);
+    private static final BodyImage attack = new BodyImage("data/SFX/effect1.gif", 3f);
     private static Vec2 impulse;
 
     private static Vec2 position;
 
     private static Vec2 flip = new Vec2(0.5f,0.5f);
 
-    //constructor
+    //Constructors
     public Magic(GameLevel w) {
         super(w,attackShape);
         addImage(attack);
-        //set the gravity to 0 to make it go in a straight line
+        //Gravity Set to 0 (Allows straight line movement)
         this.setGravityScale(0f);
 
-        //create it slightly to the left if the player faces left due to polygon overlapping
+        //Creating it slightly to the left to avoid polygon overlapping
         if (w.getPlayer().getFlip()) {
             position = (new Vec2(w.getPlayer().getPosition())).sub(flip);
         } else {
@@ -29,16 +29,16 @@ public class Magic extends DynamicBody {
         }
         this.setPosition(position);
 
-        //set it to be a bullet
+        //Set it to be a bullet
         this.isBullet();
 
-        //change impulse direction depending on which way the character faces
+        //Impulse direction changes according to which way the character faces
         if (w.getPlayer().getFlip()) {
             impulse = new Vec2(-13f,0f);
         } else {
             impulse = new Vec2(13f,0f);
         }
-        //apply the impulse
+        //Impulse Applied
         this.applyImpulse(impulse);
     }
 }

@@ -5,34 +5,34 @@ import javax.swing.*;
 
 public class GUI extends JPanel {
 
-    //variables
+    //Variables
     private GameLevel level;
     private final JPanel gamePanel;
     private final JProgressBar healthBar;
     private final JLabel enemiesKilled;
 
-    //constructor
+    //Constructors
     public GUI(GameLevel level, Game game) {
         this.level = level;
 
-        //assigning variables
+        //Variables Assigned
         gamePanel= new JPanel();
         healthBar = new JProgressBar(0, 100);
-        JButton pauseButton = new JButton(new ImageIcon("data/icons/pause.png"));
-        JButton quitButton = new JButton(new ImageIcon("data/icons/quit.png"));
-        JButton playButton = new JButton(new ImageIcon("data/icons/play.png"));
-        JButton restartButton = new JButton(new ImageIcon("data/icons/restart.png"));
-        JButton muteButton = new JButton(new ImageIcon("data/icons/mute.png"));
-        JButton unmuteButton = new JButton(new ImageIcon("data/icons/unmute.png"));
-        JButton soundUpButton = new JButton(new ImageIcon("data/icons/soundup.png"));
-        JButton soundDownButton = new JButton(new ImageIcon("data/icons/sounddown.png"));
-        JButton saveOneButton = new JButton(new ImageIcon("data/icons/1.png"));
-        JButton saveTwoButton = new JButton(new ImageIcon("data/icons/2.png"));
-        JButton saveThreeButton = new JButton(new ImageIcon("data/icons/3.png"));
+        JButton pauseButton = new JButton(new ImageIcon("data/GUI Buttons/pause.png"));
+        JButton quitButton = new JButton(new ImageIcon("data/GUI Buttons/quit.png"));
+        JButton playButton = new JButton(new ImageIcon("data/GUI Buttons/play.png"));
+        JButton restartButton = new JButton(new ImageIcon("data/GUI Buttons/restart.png"));
+        JButton muteButton = new JButton(new ImageIcon("data/GUI Buttons/mute.png"));
+        JButton unmuteButton = new JButton(new ImageIcon("data/GUI Buttons/unmute.png"));
+        JButton soundUpButton = new JButton(new ImageIcon("data/GUI Buttons/soundup.png"));
+        JButton soundDownButton = new JButton(new ImageIcon("data/GUI Buttons/sounddown.png"));
+        JButton saveOneButton = new JButton(new ImageIcon("data/GUI Buttons/1.png"));
+        JButton saveTwoButton = new JButton(new ImageIcon("data/GUI Buttons/2.png"));
+        JButton saveThreeButton = new JButton(new ImageIcon("data/GUI Buttons/3.png"));
         enemiesKilled = new JLabel("Enemies Killed: " + level.getPlayer().getEnemiesKilled());
         updateEnemiesKilled();
 
-        //making the button transparent to only show the image
+        //Buttons made transparent to view images
         makeTransparent(pauseButton);
         makeTransparent(quitButton);
         makeTransparent(playButton);
@@ -45,7 +45,7 @@ public class GUI extends JPanel {
         makeTransparent(saveTwoButton);
         makeTransparent(saveThreeButton);
 
-        //add the buttons to the panel
+        //Buttons added to the panel
         gamePanel.add(healthBar);
         gamePanel.add(enemiesKilled);
         gamePanel.add(playButton);
@@ -60,7 +60,7 @@ public class GUI extends JPanel {
         gamePanel.add(saveTwoButton);
         gamePanel.add(saveThreeButton);
 
-        //all of the action listeners
+        //Action Listeners
         pauseButton.addActionListener(e -> game.pause());
 
         playButton.addActionListener(e -> game.play());
@@ -87,7 +87,7 @@ public class GUI extends JPanel {
     }
 
     public void makeTransparent(JButton button){
-        //method to make the buttons transparent
+        //Buttons Transparency
         button.setBorder(null);
         button.setBorderPainted(false);
         button.setContentAreaFilled(false);
@@ -95,13 +95,13 @@ public class GUI extends JPanel {
     }
 
      public void updateEnemiesKilled() {
-        //method to update the text to show the correct value
+        //Method updates the text to show the correct value
         enemiesKilled.setText("Enemies Killed: " + level.getPlayer().getEnemiesKilled());
         enemiesKilled.paintImmediately(enemiesKilled.getVisibleRect());
      }
 
 
-    //getters and setters
+    //Getters and Setters
     public JPanel getGamePanel(){
         return gamePanel;
     }

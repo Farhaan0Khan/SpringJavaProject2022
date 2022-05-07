@@ -3,20 +3,20 @@ package game;
 import city.cs.engine.*;
 
 public class MagicController implements CollisionListener {
-    //variables
+    //Variables
     private Magic m;
     private Enemy enemy;
 
-    //constructor
+    //Constructors
     public MagicController(Magic m){
         this.m = m;
     }
 
 
-    //collision detection that will allow you to shoot enemies
+    //Collision detection that will allow you to shoot enemies
     @Override
     public void collide(CollisionEvent e) {
-        //dependant on enemy health, they will either get damaged or destroyed
+        //Dependant on enemy health, they will either get damaged or destroyed
         if (e.getOtherBody() instanceof Enemy) {
             enemy = (Enemy) e.getOtherBody();
             int damage = enemy.getHealth() - enemy.getP().getDamage();
@@ -26,10 +26,10 @@ public class MagicController implements CollisionListener {
                 enemy.getP().setEnemiesKilled(enemy.getP().getEnemiesKilled()+1);
                 enemy.getP().getWorld().getGame().getGUI().updateEnemiesKilled();
             }
-            //destroy the bullet
+            //Bullet Destroyed
             m.destroy();
         }
-        //destroy the bullet if it hits anything else with to prevent the world from getting filled
+        //Destroy the bullet if it hits anything else which prevents the world from getting filled
         if (e.getOtherBody() instanceof StaticBody || e.getOtherBody() instanceof Chest
                 || e.getOtherBody() instanceof Vortex) {
             m.destroy();

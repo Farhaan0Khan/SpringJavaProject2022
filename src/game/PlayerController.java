@@ -8,7 +8,7 @@ import java.util.List;
 
 public class PlayerController implements KeyListener {
 
-    //variables
+    //Variables
     private Player player;
 
     private List<Enemy> EnemyList = new ArrayList<>();
@@ -16,28 +16,27 @@ public class PlayerController implements KeyListener {
 
     private boolean spamPrevention;
 
-    //constructor
+    //Constructors
     public PlayerController(Player p) {
         player = p;
     }
 
-    //keep to satisfy IJ
     @Override
     public void keyTyped(KeyEvent e) {
     }
 
 
     public void keyPressed(KeyEvent e) {
-        //getting the key pressed
+        //Getting the key pressed
         int key = e.getKeyCode();
 
-        //updating objects in the game
+        //Updating objects in the game
         updateGame();
 
-        //allowing the user to save in different files
+        //Allows the user to save in different files
         if (key == KeyEvent.VK_1) {
             try {
-                gameSaverLoader.save(player.getWorld(), "data/saves/fileSaveOne.txt");
+                gameSaverLoader.save(player.getWorld(), "data/FileSaves/fileSaveOne.txt");
             } catch (IOException ioException) {
                 ioException.printStackTrace();
             }
@@ -45,7 +44,7 @@ public class PlayerController implements KeyListener {
         }
         if (key == KeyEvent.VK_2) {
             try {
-                gameSaverLoader.save(player.getWorld(), "data/saves/fileSaveTwo.txt");
+                gameSaverLoader.save(player.getWorld(), "data/FileSaves/fileSaveTwo.txt");
             } catch (IOException ioException) {
                 ioException.printStackTrace();
             }
@@ -53,14 +52,14 @@ public class PlayerController implements KeyListener {
         }
         if (key == KeyEvent.VK_3) {
             try {
-                gameSaverLoader.save(player.getWorld(), "data/saves/fileSaveThree.txt");
+                gameSaverLoader.save(player.getWorld(), "data/FileSaves/fileSaveThree.txt");
             } catch (IOException ioException) {
                 ioException.printStackTrace();
             }
             System.out.println("Saving in 3...");
         }
 
-        //allowing the player to switch heroes depending if conditions are met
+        //Allows the player to switch heroes if conditions are met
         if (key == KeyEvent.VK_J) {
             int i = player.getHero()+1;
             if (player.getUnlockHero2() && i == 2){
@@ -75,7 +74,7 @@ public class PlayerController implements KeyListener {
             }
         }
 
-        //allowing the player to control using WAD
+        //Allows the player to control using WAD
         if (key == KeyEvent.VK_W) {
             player.jumpUp();
             player.jump(player.getJumpingSpeed());
@@ -89,7 +88,7 @@ public class PlayerController implements KeyListener {
             player.startWalking(player.getWalkingSpeed());
         }
 
-        //allowing the player to attack differently based on who they are
+        //Allows the player to attack differently based on who they are
         if (key == KeyEvent.VK_L && player.getHero() == 1 && !spamPrevention) {
             player.attack();
             Magic attack = new Magic(player.getWorld());
@@ -109,13 +108,13 @@ public class PlayerController implements KeyListener {
 
     @Override
     public void keyReleased(KeyEvent e) {
-        //getting the key
+        //Gets the key
         int key = e.getKeyCode();
 
-        //updating objects in the game
+        //Update objects in the game
         updateGame();
 
-        //preventing the player walking without pressing a key
+        //Prevents the player walking without pressing a key
         if (key == KeyEvent.VK_W) {
             player.idle();
         } else if (key == KeyEvent.VK_A) {
@@ -135,32 +134,32 @@ public class PlayerController implements KeyListener {
 
 
     protected void updateGame(){
-        //every time a key is pressed, update where the player to the enemy
+        //Every time a key is pressed, update where the player to the enemy
         EnemyList = player.getWorld().getEnemy();
         for (int i = 0; i < EnemyList.size(); i++) {
             EnemyList.get(i).followPlayer();
             EnemyList.get(i).attackPlayer();
         }
 
-        //continuously run as they have built in validation preventing it happening all the time
+        //Continuously run as they have built in validation preventing it happening all the time
         player.getWorld().generateChest();
         player.getWorld().generateVortex();
     }
 
 
-    //another style of attack for the player
+    //Another style of attack for the player
     protected void swordAttack(float swordSpan) {
-        //change image
+        //Image Changed
         player.attack();
         for (int i = 0; i < EnemyList.size(); i++) {
             Enemy enemy = EnemyList.get(i);
             float distanceX = Math.abs(enemy.getPosition().x - player.getPosition().x);
             float distanceY = Math.abs(enemy.getPosition().y - player.getPosition().y);
-            //compare distance of all enemies to player
+            //Compare distance of all enemies to player
             if (distanceX < swordSpan && distanceY < swordSpan) {
                 int damage = enemy.getHealth() - player.getDamage();
                 enemy.setHealth(damage);
-                //if the enemy health is below 0, destroy the object and add one to kill count
+                ///If the enemy health is below 0, destroy the object and add one to kill count
                 if (enemy.getHealth() < 0) {
                     enemy.death();
                     player.setEnemiesKilled(player.getEnemiesKilled() + 1);
@@ -172,11 +171,11 @@ public class PlayerController implements KeyListener {
 
 
     protected void bombAttack(){
-        //change image
+        //Image Created
         player.attack();
         Bomb b = new Bomb(player.getWorld());
     }
 
-    //setter
+    //Setter
     public void updatePlayer(Player player) { this.player = player; }
 }

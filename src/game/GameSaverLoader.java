@@ -9,7 +9,6 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-
 public class GameSaverLoader {
     protected static GameLevel level;
 

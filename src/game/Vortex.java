@@ -9,15 +9,15 @@ import java.io.IOException;
 
 public class Vortex extends DynamicBody {
 
-    //variables
-    private static final BodyImage vortexImage = new BodyImage("data/effects/vortex.gif", 7f);
+    //Variables
+    private static final BodyImage vortexImage = new BodyImage("data/SFX/vortex.gif", 7f);
     private static Shape vortexShape = new CircleShape(3f);
 
-    //the sound of vortex
+    //Vortex SoundClip
     private static SoundClip vortex;
     static {
         try {
-            vortex = new SoundClip("data/sounds/vortex.wav");
+            vortex = new SoundClip("data/SoundClips/vortex.wav");
         } catch (UnsupportedAudioFileException | IOException |
                 LineUnavailableException e) {
             System.out.println(e);
@@ -26,7 +26,7 @@ public class Vortex extends DynamicBody {
     }
 
 
-    //constructor
+    //Constructors
     public Vortex(World w) {
         super(w, vortexShape);
         addImage(vortexImage);
@@ -34,7 +34,7 @@ public class Vortex extends DynamicBody {
         vortex.loop();
     }
 
-    //getter
+    //Getter
     public SoundClip getSound(){
         return vortex;
     }

@@ -10,26 +10,26 @@ public class Enemy extends Walker {
 
     private final GameLevel w;
 
-    //create the shape for the enemy
+    //Enemy Shape Created
     private static final Shape oneShape = new PolygonShape(-0.22f,0.38f,
             -1.82f,-1.92f, -0.37f,-4.18f, 1.15f,-2.25f);
 
-    //create the images for the enemy
-    private static final BodyImage fodder1Attack = new BodyImage("data/fodder/one/attack.gif",10f);
-    private static final BodyImage fodder1Death = new BodyImage("data/fodder/one/death.gif",10f);
-    private static final BodyImage fodder1Idle = new BodyImage("data/fodder/one/idle.gif",10f);
-    private static final BodyImage fodder1Jump = new BodyImage("data/fodder/one/jump.gif",10f);
-    private static final BodyImage fodder1Run = new BodyImage("data/fodder/one/run.gif",10f);
+    //Enemy Images Created
+    private static final BodyImage fodder1Attack = new BodyImage("data/Characters/Enemy/attack.gif",10f);
+    private static final BodyImage fodder1Death = new BodyImage("data/Characters/Enemy/death.gif",10f);
+    private static final BodyImage fodder1Idle = new BodyImage("data/Characters/Enemy/idle.gif",10f);
+    private static final BodyImage fodder1Jump = new BodyImage("data/Characters/Enemy/jump.gif",10f);
+    private static final BodyImage fodder1Run = new BodyImage("data/Characters/Enemy/run.gif",10f);
 
-    //set the enemy stats
+    //Enemy Statistics set
     private int health = 75;
     private final int damage = 10;
 
-    //sound clip for general monster sounds
+    //Monster Sound Clip
     private static SoundClip monsterSound;
     static {
         try {
-            monsterSound = new SoundClip("data/sounds/monster.wav");
+            monsterSound = new SoundClip("data/SoundClips/monster.wav");
         } catch (UnsupportedAudioFileException | IOException |
                 LineUnavailableException e) {
             System.out.println(e);
@@ -37,7 +37,7 @@ public class Enemy extends Walker {
 
     }
 
-    //constructor
+    //Constructors
     public Enemy(GameLevel world) {
         super(world, oneShape);
         addImage(fodder1Idle);
@@ -48,7 +48,7 @@ public class Enemy extends Walker {
 
     //this allows the body to go towards the object by comparing it's relative position to the player
     public void followPlayer(){
-        //following along the x-axis
+        //Following along the x-axis
         if (w.getPlayer().getPosition().x > this.getPosition().x){
             this.startWalking(2f);
             this.removeAllImages();
@@ -58,7 +58,7 @@ public class Enemy extends Walker {
             this.removeAllImages();
             this.addImage(fodder1Run).flipHorizontal();
         }
-        //following along the y-axis
+        //Following along the y-axis
         if (w.getPlayer().getPosition().y > this.getPosition().y){
             this.jump(10f);
             this.removeAllImages();
@@ -69,8 +69,7 @@ public class Enemy extends Walker {
             }
         }
     }
-
-    //attacks the player if they are within a certain distance
+    //Player gets attacked by enemy if they are within a certain distance
     public void attackPlayer(){
         float distanceX = Math.abs(this.getPosition().x - w.getPlayer().getPosition().x);
         float distanceY = Math.abs(this.getPosition().y - w.getPlayer().getPosition().y);
@@ -80,7 +79,7 @@ public class Enemy extends Walker {
         }
     }
 
-    //death animation
+    //Death Animation
     public void death(){
         monsterSound.stop();
         this.removeAllImages();
@@ -88,7 +87,7 @@ public class Enemy extends Walker {
         this.destroy();
     }
 
-    //getters and setters
+    //Getters and Setters Initialised
     public int getHealth() { return health; }
     public void setHealth(int health) { this.health = health; }
     public int getDamage() { return damage; }

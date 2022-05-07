@@ -10,13 +10,13 @@ import javax.swing.*;
 public class Level3 extends GameLevel {
     private SoundClip gameMusic;
 
-    //constructor
+    //Constructors
     public Level3(Game game) {
         super(game, 10);
 
-        //play music
+        //Play music
         try {
-            gameMusic = new SoundClip("data/sounds/bg/3.wav");   // Open an audio input stream
+            gameMusic = new SoundClip("data/SoundClips/Background Music/3.wav");   // Open an audio input stream
             gameMusic.loop();  // Set it to continuous playback (looping)
         } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
             System.out.println(e);
@@ -24,18 +24,17 @@ public class Level3 extends GameLevel {
         gameMusic.setVolume(1.0d);
     }
 
-    //getter for music
+    //Getter for Music
     public SoundClip getGameMusic() {
         return gameMusic;
     }
 
-    //lets us know what level this is
     @Override
     public String getLevelName() {
         return "Level3";
     }
 
-    //condition for the game ending is if they have killed all enemies
+    //Condition for the game ending is if they have killed all enemies
     @Override
     public boolean isComplete() {
         if (getPlayer().getEnemiesKilled() == 10)
@@ -44,11 +43,10 @@ public class Level3 extends GameLevel {
             return false;
     }
 
-    //paint a different background
+    //Paint a different background
     @Override
     public Image paintBackground() {
-        Image background = new ImageIcon("data/bg/bg3.png").getImage();
+        Image background = new ImageIcon("data/Backgrounds/Level 3.png").getImage();
         return background;
     }
 }
-

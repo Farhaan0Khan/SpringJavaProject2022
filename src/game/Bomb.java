@@ -12,38 +12,39 @@ import java.io.IOException;
 
 public class Bomb implements ActionListener {
 
-    //variables
+    //Variables Created
     private final GameLevel w;
     private final DynamicBody bomb;
     private DynamicBody explosion;
-    private static final BodyImage bombImage = new BodyImage("data/effects/bomb.png", 1f);
-    private static final BodyImage explosionImage = new BodyImage("data/effects/explosion.gif", 10f);
+    private static final BodyImage bombImage = new BodyImage("data/SFX/bomb.png", 1f);
+    private static final BodyImage explosionImage = new BodyImage("data/SFX/explosion.gif", 10f);
 
     private static Vec2 position;
 
     private static final Vec2 flip = new Vec2(0.5f,0.5f);
     private int timerCount = 0;
 
-    //sound of the explosion
+    //Explosion
     private static SoundClip explode;
     static {
         try {
-            explode = new SoundClip("data/sounds/bomb.wav");
+            explode = new SoundClip("data/SoundClips/bomb.wav");
         } catch (UnsupportedAudioFileException | IOException |
                 LineUnavailableException e) {
             System.out.println(e);
         }
 
     }
+    //Creates a bomb object that is 'thrown' by the player
 
-    //constructor
+    //Constructors
     public Bomb(GameLevel w){
-        //create the bomb
+        //Creating Bomb
         this.w = w;
         bomb = new DynamicBody(w, new CircleShape(0.5f));
         bomb.addImage(bombImage);
 
-        //create it slightly to the left if the player faces left due to polygon overlapping
+        //Creating Bomb slightly to the left to avoid polygon overlapping
         if (w.getPlayer().getFlip()) {
             position = (new Vec2(w.getPlayer().getPosition())).sub(flip);
         } else {
@@ -51,7 +52,7 @@ public class Bomb implements ActionListener {
         }
         bomb.setPosition(position);
 
-        //change impulse direction depending on which way the character faces
+        //Bomb direction changes to which direction the character faces
         Vec2 impulse;
         if (w.getPlayer().getFlip()) {
             impulse = new Vec2(-5,0f);
@@ -59,10 +60,10 @@ public class Bomb implements ActionListener {
             impulse = new Vec2(5,0f);
         }
 
-        //apply the impulse to throw the bomb
+        //Application of Bomb Throw
         bomb.applyImpulse(impulse);
 
-        //create and start the timer on when the explosion should occur
+        //Timer Created and Started when Bomb gets thrown
         Timer timer = new Timer(2500, this);
         timer.start();
         timer.setRepeats(false);
@@ -70,7 +71,7 @@ public class Bomb implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        //when the bomb has been created, start the timer
+        //Starting Timer when Bomb is created
         timerCount++;
         if (timerCount == 1) {
             //add 1 so it knows it has created a bomb
@@ -82,14 +83,14 @@ public class Bomb implements ActionListener {
             explosion.addImage(explosionImage);
             explosion.setPosition(position);
 
-            //create a new timer in order to remove the explosion after some time
+            //Timer ended to remove Bomb Explosion
             Timer timer = new Timer(500, this);
             timer.setRepeats(false);
             timer.start();
 
-            //add a collision listener to damage anyone near by
+            //Collision listener added to damage Enemies near by
             explosion.addCollisionListener(e1 -> {
-                //if an enemy collides with an explosion they get damaged
+                //Enemy Collision = Damaged
                 if (e1.getOtherBody() instanceof Enemy) {
                     Enemy enemy = (Enemy) e1.getOtherBody();
                     int damage = enemy.getHealth() - 90;
@@ -100,7 +101,7 @@ public class Bomb implements ActionListener {
                         enemy.getP().getWorld().getGame().getGUI().updateEnemiesKilled();
                     }
                 }
-                //if the player collides with an explosion they get damaged
+                //Player Collision = Damaged
                 if (e1.getOtherBody() instanceof Player){
                     Player player = (Player) e1.getOtherBody();
                     player.setHealth(player.getHealth() - 30);
@@ -111,7 +112,7 @@ public class Bomb implements ActionListener {
             });
         }
 
-        //remove the explosion for after the timer ends
+        //Explosion removed after timer has ended
         if (timerCount == 2) {
             explosion.destroy();
             timerCount = 0;

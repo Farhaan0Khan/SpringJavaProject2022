@@ -5,22 +5,22 @@ import city.cs.engine.*;
 
 public class ChestController implements CollisionListener {
 
-    //variables for the collision listener
+    //Collision Listener Variables
     private final Chest c;
 
-    //constructor
+    //Constructors
     public ChestController(Chest c){ this.c = c; }
 
     @Override
     public void collide(CollisionEvent e) {
-        //collision detection that will allow you to unlock a character
+        //Character is  unlocked once collision is detecte
         if (e.getOtherBody() instanceof Player) {
             Player p = (Player) e.getOtherBody();
-            //if player has not unlocked the 2nd hero for the first level then unlock
+            //If 2nd hero isn't unlcoked in the first level then unlock automatically
             if (!p.getUnlockHero2() && p.getWorld() instanceof Level1){
                 p.setUnlockHero2(true);
             }
-            //if player has not unlocked the 3rd hero for the second level then unlock
+            //If 3rd hero isn't unlcoked in the second level then unlock automatically
             if (!p.getUnlockHero3() && p.getWorld() instanceof Level2) {
                 p.setUnlockHero3(true);
             }
@@ -29,7 +29,7 @@ public class ChestController implements CollisionListener {
                     p.setHealth(p.getHealth()+50);
                 }
             }
-            //destroy the chest and acknowledge that it's been picked up
+            //Chest destroyed once picked up
             c.destroy();
             p.getWorld().setPickedUp(true);
         }

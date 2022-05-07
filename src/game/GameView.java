@@ -6,17 +6,17 @@ import java.awt.*;
 
 public class GameView extends UserView {
 
-    //variables
+    //Variables
     private Image background;
     private GameLevel w;
 
-    //constructor
+    //Constructors
     public GameView(GameLevel w, int width, int height) {
         super(w, width, height);
         this.w = w;
     }
 
-    //this will allow for the bg to be changed for each level
+    //Allows BG to be changed for each level
     public void setBackground(Image background){
         this.background = background;
     }
@@ -26,7 +26,7 @@ public class GameView extends UserView {
     protected void paintForeground(Graphics2D g) {
     }
 
-    //draw the background with the given image
+    //Background drawn with given image
     @Override
     protected void paintBackground(Graphics2D g) {
         g.drawImage(background, 0, 0, this);

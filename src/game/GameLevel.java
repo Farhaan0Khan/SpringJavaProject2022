@@ -9,7 +9,7 @@ import java.util.List;
 
 
 public abstract class GameLevel extends World {
-    //declare variables
+    //Variables declared
     private Player player;
     /**
      * This stores a list of enemy objects so it is easier to control
@@ -37,13 +37,13 @@ public abstract class GameLevel extends World {
     private SoundClip background;
     private Game game;
 
-    //constructor
+    //Constructors initialised
     public GameLevel(Game game, int e) {
-        //gravity set to 20 to bring down objects faster
+        //Gravity = 20 (Objects come down faster)
         this.setGravity(20f);
         this.game = game;
 
-        //create ground and walls around the screen out of view to prevent objects running out
+        //Walls and Ground created to prevent from objects being out of view
         Shape left = new BoxShape(0.25f, 18f);
         StaticBody wallLeft = new StaticBody(this, left);
         wallLeft.setPosition(new Vec2(23f, 0f));
@@ -56,19 +56,18 @@ public abstract class GameLevel extends World {
         StaticBody ground = new StaticBody(this, shape);
         ground.setPosition(new Vec2(0f, -16f));
 
-        //generate platforms for the game
+        //Platforms generated for the game
         generatePlatforms();
 
-        //all levels have a player and enemies
-        //the player needs to kill all enemies, take the chest and reach the vortex to move on
+        //All levels have a Player and Enemies
 
-        //randomly place the player
+        //Player is randomly placed
         player = new Player(this);
         Random random = new Random();
         float posX = random.nextInt(20 + 20) - 20;
         player.setPosition(new Vec2(posX, 10));
 
-        //generate the enemies and add the collision lister
+        //Enemies generated and Collision Lister added
         generateEnemies(e);
         EnemyController destroy = new EnemyController(player);
         player.addCollisionListener(destroy);
@@ -77,27 +76,28 @@ public abstract class GameLevel extends World {
 
     public void generateEnemies(int enemyNum){
         //creates the required number of enemies for the world
+        //Required number of enemies created
         for (int i = 0; i < enemyNum; i++) {
-            //randomize the position of the enemy
+            //Enemies positions are randomised
             Random random = new Random();
             float posX = random.nextInt(17 + 17) - 17;
             float posY = random.nextInt(7 + 7) - 7;
             Enemy enemy = new Enemy(this);
             enemy.setPosition(new Vec2(posX, posY));
-            //make sure the enemy follows the player and attacks them
+            //Enemy follows Player to attack
             enemy.followPlayer();
             enemy.attackPlayer();
-            //add to a list for ease of control and reference
+            //List added for ease of control and reference
             EnemyList.add(enemy);
         }
     }
 
     public void generatePlatforms(){
-        //randomly generate how many platforms will be in the level
+        //Number of Platforms randomly generated
         Random random = new Random();
         int platforms = random.nextInt(10 - 2) + 3;
         for (int i = 0; i < platforms; i++) {
-            //randomly generate the position of the platform and create it
+            //Platforms positions are randomly generated and created
             int posX = random.nextInt(22 + 22) - 22;
             int posY = random.nextInt(15 + 11) - 11;
             int boxLength = random.nextInt(6 - 2) + 2;
@@ -112,44 +112,44 @@ public abstract class GameLevel extends World {
     }
 
     public void generateChest(){
-        //create a chest if the current level hasn't had one generated already
+        //Creates a chest if the current level hasn't had one generated already
         if (player.getEnemiesKilled() >= 2 && !generated){
             chest = new Chest(player.getWorld());
             ChestController control = new ChestController(chest);
             chest.addCollisionListener(control);
-            //set to true to prevent another one being generated
+            //Set to true to prevent another one being generated
             generated = true;
         }
     }
 
     public void generateVortex(){
-        //generate the vortex that will lead to the next level
+        //Generate the vortex that will lead to the next level
         if (player.getEnemiesKilled() == player.getWorld().getEnemy().size() && pickedUp && !generateVortex){
             vortex = new Vortex(player.getWorld());
             VortexController control = new VortexController(player.getWorld(), game);
             vortex.addCollisionListener(control);
-            //set to true to prevent another one being generated
+            //Set to true to prevent another one being generated
             generateVortex = true;
         }
     }
 
     public void regeneratePlatforms(List<List<String>> Platforms){
-        //remove the platforms automatically generated
+        //Removes the platforms automatically generated
         for (int i = 0; i < listOfPlatforms.size(); i++) {
             listOfPlatforms.get(i).destroy();
         }
-        //create a clean slate for the construction of old platforms
+        //Creates a clean slate for the construction of old platforms
         listOfPlatforms.clear();
         PlatformList.clear();
         for (int i = 0; i < Platforms.size(); i++) {
-            //generate the platform where it used to be
+            //Generates the platform where it used to be
             int posX = Integer.parseInt(Platforms.get(i).get(1));
             int posY = Integer.parseInt(Platforms.get(i).get(2));
             int boxLength = Integer.parseInt(Platforms.get(i).get(3));
             Shape rectangle = new BoxShape(boxLength, 0.25f);
             StaticBody wall = new StaticBody(this, rectangle);
             wall.setPosition(new Vec2(posX, posY));
-            //add to list for easy manipulation
+            //Add to list for easy manipulation
             listOfPlatforms.add(wall);
             PlatformList.add(String.valueOf(posX));
             PlatformList.add(String.valueOf(posY));
@@ -167,24 +167,24 @@ public abstract class GameLevel extends World {
      * @return
      */
     public void regenerateEnemies(List<List<String>> Enemies){
-        //remove the enemies automatically generated with a new level
+        //Remove the enemies automatically generated with a new level
         for (int i = 0; i < EnemyList.size(); i++) {
             EnemyList.get(i).destroy();
         }
-        //create a clean slate for the new generation
+        //Create a clean slate for the new generation
         EnemyList.clear();
         for (int i = 0; i < Enemies.size(); i++) {
-            //generate enemies in the positions they were with the health they were at
+            //Generate enemies in the positions they were with the health they were at
             int health = Integer.parseInt(Enemies.get(i).get(1));
             float posX = Float.parseFloat(Enemies.get(i).get(2).substring(1));
             float posY = Float.parseFloat(Enemies.get(i).get(3).substring(0, Enemies.get(i).get(3).length() - 1));
             Enemy enemy = new Enemy(this);
             enemy.setPosition(new Vec2(posX, posY));
             enemy.setHealth(health);
-            //make sure the enemy follows the player and attacks them
+            //Make sure the enemy follows the player and attacks them
             enemy.followPlayer();
             enemy.attackPlayer();
-            //add to a list for ease of control and reference
+            //Add to a list for ease of control and reference
             EnemyList.add(enemy);
             if (enemy.getHealth()<0){
                 enemy.destroy();
@@ -201,7 +201,7 @@ public abstract class GameLevel extends World {
      * @return
      */
     public void regeneratePlayer(List<String> Player){
-        //pass on all of the stats and set position of the player at the state of saving
+        //Pass on all of the stats and set position of the player at the state of saving
         this.getPlayer().setHero(Integer.parseInt(Player.get(1)));
         this.getPlayer().setHealth(Integer.parseInt(Player.get(2)));
         this.getPlayer().setUnlockHero2(Boolean.parseBoolean(Player.get(3)));
@@ -212,10 +212,10 @@ public abstract class GameLevel extends World {
         this.getPlayer().setPosition(new Vec2(posX, posY));
     }
     
-    //abstract method to help with saving
+    //Abstract method to help with saving
     public abstract String getLevelName();
 
-    //getters and setters
+    //Getters and Setters
     public Player getPlayer() { return player; }
     public List<Enemy> getEnemy() { return EnemyList; }
     public List<String> getPlatforms() { return PlatformList; }

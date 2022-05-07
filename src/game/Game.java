@@ -7,7 +7,7 @@ import java.io.IOException;
 
 public class Game {
 
-    //variables
+    //Variables
     private GameLevel level;
     private final GameView view;
     private final PlayerController controller;
@@ -18,10 +18,10 @@ public class Game {
     private int restarting = 0;
 
     public Game() {
-        //make the level
+        //Level Made
         level = new Level1(this);
 
-        //make view
+        //View Made
         view = new GameView(level, 900, 650);
         view.setZoom(20);
         view.setBackground(level.paintBackground());
@@ -37,74 +37,75 @@ public class Game {
 
         view.addMouseListener(new GiveFocus(view));
 
-        // add the view to a frame (Java top level window)
-        final JFrame frame = new JFrame("Basic world");
+        //View added to the frame (Top Left Window)
+        final JFrame frame = new JFrame("Jump Run & Butcher");
         frame.add(view);
-        // enable the frame to quit the application
-        // when the x button is pressed
+        //Application is quitted when X is pressed
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLocationByPlatform(true);
-        // don't let the frame be resized
+        //Frame cannot be resized
         frame.setResizable(false);
-        // size the frame to fit the world view
+        //Frame sized to fit window
         frame.pack();
-        // finally, make the frame visible
+        //Frame can be visible
         frame.setVisible(true);
 
-        //start the simulation
+        //Game Starts
         level.start();
     }
 
 
     public void goToNextLevel(){
-        //this will progress from one level to another
+        //Level progressed from one to another
         if (level instanceof Level1){
-            //store the old player from the level and stop the level
+            //Old Player stored from one level and level is stopped
             p = level.getPlayer();
             level.stop();
-            //stop the music otherwise it'd play in the background
+            //Background Music changes otherwise stop music
             level.getGameMusic().close();
 
-            //create the next level and level now refers to new level
+            //New level is created
             level = new Level2(this);
             gui.setLevel(level);
-            //change the view to look into new level
+            //View changes in New Level
             view.setWorld(level);
             view.setBackground(level.paintBackground());
-            //change the controller to control the new player
+            //Controller changed to control new player
             controller.updatePlayer(level.getPlayer());
 
-            //pass on certain variables
+            //Certain variables are passed from level to level
             level.getPlayer().setHealth(p.getHealth());
             level.getPlayer().setUnlockHero2(p.getUnlockHero2());
 
-            //start the simulation in the new level
+            //Game starts in new level
             level.start();
+
         } else if (level instanceof Level2){
-            //store the old player from the level and stop the level
+            //Old Player stored from one level and level is stopped
             p = level.getPlayer();
             level.stop();
-            //stop the music otherwise it'd play in the background
+            //Background Music changes otherwise stop music
             level.getGameMusic().close();
 
-            //create the next level and level now refers to new level
+            //New level is created
             level = new Level3(this);
             gui.setLevel(level);
-            //change the view to look into new level
+            //View changes in New Level
             view.setWorld(level);
             view.setBackground(level.paintBackground());
-            //change the controller to control the new player
+            //Controller changed to control new player
             controller.updatePlayer(level.getPlayer());
 
-            //pass on certain variables
+            //Certain variables are passed from level to level
             level.getPlayer().setHealth(p.getHealth());
             level.getPlayer().setUnlockHero2(p.getUnlockHero2());
             level.getPlayer().setUnlockHero3(p.getUnlockHero3());
 
-            //start the simulation in the new level
+            //Game starts in new level
             level.start();
+
         } else if (level instanceof Level3) {
-            //after Level 3, the game is over so exit
+            //Game over after Level 3
             System.out.println("You Win!");
             System.exit(0);
         }
@@ -112,16 +113,16 @@ public class Game {
 
     public void setLevel(GameLevel newLevel) {
         level.stop();
-        //stop the music otherwise it'd play in the background
+        //Background Music changes otherwise stop music
         level.getGameMusic().close();
 
-        //create the next level and level now refers to new level
+        //New Level created
         level = newLevel;
         gui.setLevel(level);
-        //change the view to look into new level
+        //View changes in New Level
         view.setWorld(level);
         view.setBackground(level.paintBackground());
-        //change the controller to control the new player
+        //Controller changed to control new player
         controller.updatePlayer(level.getPlayer());
         level.start();
     }
@@ -137,81 +138,82 @@ public class Game {
         restarting = 1;
         if (level instanceof Level1){
             level.stop();
-            //stop the music otherwise it'd play in the background
+            //Background Music changes otherwise stop music
             level.getGameMusic().close();
             if (level.getGeneratedVortex()){
                 level.getVortex().getSound().close();}
 
-            //create the new repeat level and level now refers to new level
+            //New level is created when restart is clicked
             level = new Level1(this);
             gui.setLevel(level);
             gui.updateHealthBar(level);
-            //change the view to look into new level
+            //View changes in New Level
             view.setWorld(level);
             view.setBackground(level.paintBackground());
             view.getWorld().start();
             restarting = 0;
-            //change the controller to control the new player
-            //and since it's only the first level you don't need to pass on anything
+            //Controller changed to control new player
             controller.updatePlayer(level.getPlayer());
+
         } else if (level instanceof Level2){
-            //stop the level
+            //Stop the level
             p = level.getPlayer();
             level.stop();
-            //stop the music otherwise it'd play in the background
+            //Background Music changes otherwise stop music
             level.getGameMusic().close();
             level.getVortex().getSound().close();
             if (level.getGeneratedVortex()){
                 level.getVortex().getSound().close();}
 
-            //create the next level and level now refers to new level
+            //New level is created when restart is clicked
             level = new Level2(this);
             gui.setLevel(level);
             gui.updateHealthBar(level);
-            //change the view to look into new level
+            //View changes in New Level
             view.setWorld(level);
             view.setBackground(level.paintBackground());
             view.getWorld().start();
             restarting = 0;
-            //change the controller to control the new player
+            //Controller changed to control new player
             controller.updatePlayer(level.getPlayer());
 
-            //pass on certain variables that were already stored from the previous level
+            //Certain Variables passed onto new level
             level.getPlayer().setHealth(p.getHealth());
             level.getPlayer().setUnlockHero2(p.getUnlockHero2());
             level.getPlayer().setUnlockHero3(p.getUnlockHero3());
             level.getPlayer().setHero(p.getHero());
 
-            //start the simulation in the new level
+            //Game Starts in new level
             level.start();
+
         } else if (level instanceof Level3){
-            //stop the level
+            //Stop the level
             p = level.getPlayer();
             level.stop();
-            //stop the music otherwise it'd play in the background
+            //Background Music changes otherwise stop music
             level.getGameMusic().close();
             if (level.getGeneratedVortex()){
                 level.getVortex().getSound().close();}
 
-            //create the next level and level now refers to new level
+            //New Level is created
             level = new Level3(this);
             gui.setLevel(level);
             gui.updateHealthBar(level);
-            //change the view to look into new level
+            //View changes in New Level
             view.setWorld(level);
             view.setBackground(level.paintBackground());
             view.getWorld().start();
             restarting = 0;
-            //change the controller to control the new player
+            //Controller changed to control new player
             controller.updatePlayer(level.getPlayer());
 
-            //pass on certain variables that were already stored from the previous level
+            //Certain Variables passed onto new level
             level.getPlayer().setHealth(p.getHealth());
             level.getPlayer().setUnlockHero2(p.getUnlockHero2());
             level.getPlayer().setUnlockHero3(p.getUnlockHero3());
             level.getPlayer().setHero(p.getHero());
 
-            //start the simulation in the new level
+            //Game starts new level
             level.start();
         }
     }
@@ -265,7 +267,7 @@ public class Game {
     public void exit(){
         System.exit(0);    }
 
-    //getters and setters
+    //Getters and Setters
     public GUI getGUI() {
         return gui;
     }
@@ -277,7 +279,7 @@ public class Game {
     }
 
     public static void main(String[] args) {
-        //run the game :)
+        //Game is Run
         new Game();
         System.out.print("""
         Controls:
